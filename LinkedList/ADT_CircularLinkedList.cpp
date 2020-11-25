@@ -1,7 +1,7 @@
 using namespace std;
 
 
-/* 单链表的结点定义 */
+/* 结点定义 */
 template<class ElemType>
 struct LinkNode
 {
@@ -19,18 +19,18 @@ struct LinkNode
     void SetLink( ElemType value ){ data = value; }   //修改结点的next域
 };
 
-//带头结点的单链表
+//循环链表
 template<class ElemType>
-class LinkList
+class CirLinkList
 {
    private:
       LinkNode<ElemType> *head;   // 头结点
       LinkNode<ElemType> *tail;   // 尾结点
    public:
-    LinkList(){head = new LinkNode<ElemType>;tail = head;head->next = head;}//无参数的构造函数
-    LinkList(const ElemType &item){head = new LinkNode<ElemType>(item);} //带参数的构造函数
-    LinkList(LinkList<ElemType> &List);//拷贝构造函数
-    ~LinkList(){ListDestroy();}//析构函数
+    CirLinkList(){head = new LinkNode<ElemType>;tail = head;head->next = head;}//无参数的构造函数
+    CirLinkList(const ElemType &item){head = new LinkNode<ElemType>(item);} //带参数的构造函数
+    CirLinkList(CirLinkList<ElemType> &List);//拷贝构造函数
+    ~CirLinkList(){ListDestroy();}//析构函数
     //LinkList<ElemType>& operator=(LinkList<ElemType> &List);//重载函数:赋值
     void ListDestroy();//销毁链表
     void ListClear();//清空链表
@@ -60,10 +60,10 @@ class LinkList
 };
 
 template<class ElemType>
-LinkList<ElemType>::LinkList(LinkList<ElemType> &List){
+CirLinkList<ElemType>::CirLinkList(CirLinkList<ElemType> &List){
     LinkNode<ElemType> *p = List.head;
     while(p!=nullptr){
-        LinkNode<ElemType> *node = new LinkList<ElemType>(p->getData());
+        LinkNode<ElemType> *node = new CirLinkList<ElemType>(p->getData());
         p = p->next;
         LinkNode<ElemType> *pthis = head;
         while(pthis->next!=nullptr)pthis = pthis->next;
@@ -72,7 +72,7 @@ LinkList<ElemType>::LinkList(LinkList<ElemType> &List){
 }
 
 template<class ElemType>
-void LinkList<ElemType>::ListDestroy(){
+void CirLinkList<ElemType>::ListDestroy(){
     tail->next = nullptr;
     while(head!=nullptr){
         LinkNode<ElemType> *p = head;
@@ -83,14 +83,14 @@ void LinkList<ElemType>::ListDestroy(){
 }
 
 template<class ElemType>
-void LinkList<ElemType>::ListClear(){
+void CirLinkList<ElemType>::ListClear(){
     this->ListDestroy();
     head = new LinkNode<ElemType>(head);
     tail = head;
 }
 
 template<class ElemType>
-int LinkList<ElemType>::ListLength() const{
+int CirLinkList<ElemType>::ListLength() const{
     int counter = 1;
     LinkNode<ElemType> *p = head;
     while (p!=tail) {
@@ -101,13 +101,13 @@ int LinkList<ElemType>::ListLength() const{
 }
 
 template<class ElemType>
-bool LinkList<ElemType>::ListEmpty() const{
+bool CirLinkList<ElemType>::ListEmpty() const{
     if (head == nullptr) return true;
     return false;
 }
 
 template<class ElemType>
-bool LinkList<ElemType>::InsFirst( ElemType e ){
+bool CirLinkList<ElemType>::InsFirst( ElemType e ){
     LinkNode<ElemType> *p = new LinkNode<ElemType>(e,head);
     head = p;
     tail->next = head;
@@ -115,7 +115,7 @@ bool LinkList<ElemType>::InsFirst( ElemType e ){
 }
 
 template<class ElemType>//TODO做pos的越界保护
-ElemType LinkList<ElemType>::GetElem(int pos){
+ElemType CirLinkList<ElemType>::GetElem(int pos){
     if (pos == 0) return head->getData();
     LinkNode<ElemType> *p = head;
     for (int i = 0; i<pos; i++) {
@@ -125,7 +125,7 @@ ElemType LinkList<ElemType>::GetElem(int pos){
 }
 
 template<class ElemType>//TODO做pos的越界保护
-bool LinkList<ElemType>::ListInsert_prior(int pos,ElemType e){
+bool CirLinkList<ElemType>::ListInsert_prior(int pos,ElemType e){
     if (pos == 0) {
         InsFirst(e);
         return true;
@@ -140,7 +140,7 @@ bool LinkList<ElemType>::ListInsert_prior(int pos,ElemType e){
 }
 
 template<class ElemType>//TODO做pos的越界保护
-bool LinkList<ElemType>::ListInsert_next(int pos,ElemType e){
+bool CirLinkList<ElemType>::ListInsert_next(int pos,ElemType e){
     LinkNode<ElemType> *p = head;
     for (int i = 0; i<pos; i++) {
         p = p->next;
@@ -151,7 +151,7 @@ bool LinkList<ElemType>::ListInsert_next(int pos,ElemType e){
 }
 
 template<class ElemType>//TODO做pos的越界保护
-bool LinkList<ElemType>::DelFirst(ElemType &e){
+bool CirLinkList<ElemType>::DelFirst(ElemType &e){
     if (head == nullptr) return false;
     LinkNode<ElemType> *p = head;
     head = head->next;
@@ -162,14 +162,14 @@ bool LinkList<ElemType>::DelFirst(ElemType &e){
 }
 
 template<class ElemType>
-void LinkList<ElemType>::CreateList_Head(int n, ElemType *A){
+void CirLinkList<ElemType>::CreateList_Head(int n, ElemType *A){
     for(int i = 0;i<n;i++){
         InsFirst(A[n-1-i]);
     }
 }
 
 template<class ElemType>
-void LinkList<ElemType>::CreateList_Tail(int n, ElemType *A){
+void CirLinkList<ElemType>::CreateList_Tail(int n, ElemType *A){
     LinkNode<ElemType> *p = head;
     while(p->next!=head)p = p->next;
     for(int i = 0;i<n;i++){
@@ -180,7 +180,7 @@ void LinkList<ElemType>::CreateList_Tail(int n, ElemType *A){
 }
 
 template<class ElemType>
-ElemType LinkList<ElemType>::ListDelete(int pos){
+ElemType CirLinkList<ElemType>::ListDelete(int pos){
     if (pos == 0) {
         ElemType e = head->getData();
         LinkNode<ElemType> *pdelet = head;
@@ -200,7 +200,7 @@ ElemType LinkList<ElemType>::ListDelete(int pos){
 }
 
 template<class ElemType>
-bool LinkList<ElemType>::FindElem(int k, ElemType &e){
+bool CirLinkList<ElemType>::FindElem(int k, ElemType &e){
     LinkNode<ElemType> *p = head;
     for (int i = 0; i<k; i++) {
         if(p == nullptr){
@@ -213,7 +213,7 @@ bool LinkList<ElemType>::FindElem(int k, ElemType &e){
 }
 
 template<class ElemType>
-int LinkList<ElemType>::SearchElem( const ElemType &e) const{
+int CirLinkList<ElemType>::SearchElem( const ElemType &e) const{
     LinkNode<ElemType> *p = head;
     int counter = 0;
     while(p->next!=head&&p->getData()!=e){
@@ -225,31 +225,18 @@ int LinkList<ElemType>::SearchElem( const ElemType &e) const{
 }
 
 template<class ElemType>
-bool NextElem(LinkNode<ElemType> *p, ElemType & e){
+bool CirLinkList<ElemType>::NextElem(LinkNode<ElemType> *p, ElemType & e){
     e = p->next->getData();
     return true;
 }
 
 template<class ElemType>
-bool LinkList<ElemType>::ListTraverse() const{
-    LinkNode<ElemType> *p = head;
+bool CirLinkList<ElemType>::ListTraverse() const{
+    CirLinkList<ElemType> *p = head;
     while (p->next!=head) {
         cout<<p->getData()<<' ';
         p = p->next;
     }
     cout<<tail->getData()<<' ';
     return 1;
-}
-
-template<class ElemType>
-void inputLinkList(LinkList<ElemType> & l){
-    int num;
-    cin>>num;
-    for (int i = 0; i<num; i++) {
-        ElemType e;
-        cin>>e;
-        l.ListInsert_next(i, e);
-    }
-    ElemType e;
-    l.DelFirst(e);
 }
