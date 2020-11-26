@@ -28,7 +28,7 @@ class CirLinkList
       LinkNode<ElemType> *tail;   // 尾结点
    public:
     CirLinkList(){head = new LinkNode<ElemType>;tail = head;head->next = head;}//无参数的构造函数
-    CirLinkList(const ElemType &item){head = new LinkNode<ElemType>(item);} //带参数的构造函数
+    CirLinkList(const ElemType &item){head = new LinkNode<ElemType>(item);tail = head;head->next = head;} //带参数的构造函数
     CirLinkList(CirLinkList<ElemType> &List);//拷贝构造函数
     ~CirLinkList(){ListDestroy();}//析构函数
     //LinkList<ElemType>& operator=(LinkList<ElemType> &List);//重载函数:赋值
