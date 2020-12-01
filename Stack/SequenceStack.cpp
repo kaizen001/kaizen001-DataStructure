@@ -11,7 +11,7 @@ class SqStack{
       SqStack(int ms = 20);//初始化顺序栈
       ~SqStack(){StackDestroy();}//删除顺序栈
       bool StackClear( ){top = base;};//将顺序栈置为空表
-      int StackLength() const {return top - base;}//返回顺序栈的长度
+      int StackLength() const {return int(top - base);}//返回顺序栈的长度
       //bool SetListLength(int len);//设置顺序栈的长度
       bool StackisEmpty() const{ return top == base; }//判断顺序栈是否为空栈
     bool StackFull() const{return top==base+maxSize?1:0;};//判断顺序栈是否为满栈
@@ -41,6 +41,7 @@ bool SqStack<ElemType>::StackDestroy(){
 
 template<class ElemType>
 bool SqStack<ElemType>::push(ElemType &e){
+    if (StackFull()) return DoubleSpace();
     *top = e;
     top++;
     if (StackFull()) return DoubleSpace();
@@ -49,6 +50,7 @@ bool SqStack<ElemType>::push(ElemType &e){
 
 template<class ElemType>
 bool SqStack<ElemType>::push(ElemType e){
+    if (StackFull()) return DoubleSpace();
     *top = e;
     top++;
     if (StackFull()) return DoubleSpace();
@@ -70,7 +72,7 @@ template<class ElemType>
 ElemType SqStack<ElemType>::pop(){
     if (StackisEmpty()) {
         cout<<"已经为空栈禁止弹出";
-        return 0;
+        return NULL;
     }
     top--;
     
@@ -88,11 +90,11 @@ void SqStack<ElemType>::StackTraverse() const {
 
 template<class ElemType>
 bool SqStack<ElemType>::DoubleSpace(){
-    maxSize*=2;
-    if (maxSize>MAXLISTSIZE) {
+    if (maxSize*2>MAXLISTSIZE) {
         cout<<"栈大于预设的阈值，空间加倍失败";
         return 0;
     }
+    maxSize*=2;
     ElemType *oldTop = top;
     ElemType *oldBase = base;
     
