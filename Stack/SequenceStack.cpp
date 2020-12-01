@@ -16,7 +16,7 @@ class SqStack{
       bool StackisEmpty() const{ return top == base; }//判断顺序栈是否为空栈
     bool StackFull() const{return top==base+maxSize?1:0;};//判断顺序栈是否为满栈
     bool GetTop(ElemType &e) const{return &top;};//用e返回栈顶元素
-    bool push(ElemType &e);//入栈
+    //bool push(ElemType &e);//入栈
     bool push(ElemType e);//入栈
       bool pop(ElemType &e);//出栈
     ElemType pop();//出栈
@@ -38,7 +38,7 @@ bool SqStack<ElemType>::StackDestroy(){
     delete[] base;
     return 1;
 }
-
+/*
 template<class ElemType>
 bool SqStack<ElemType>::push(ElemType &e){
     if (StackFull()) return DoubleSpace();
@@ -46,7 +46,7 @@ bool SqStack<ElemType>::push(ElemType &e){
     top++;
     if (StackFull()) return DoubleSpace();
     return true;
-}
+}*///可能会与下面的push函数冲突，在传入数据类型简单时建议注释掉
 
 template<class ElemType>
 bool SqStack<ElemType>::push(ElemType e){
