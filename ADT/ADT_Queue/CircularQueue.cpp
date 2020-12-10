@@ -91,8 +91,9 @@ ElemType SqQueue<ElemType>::deQueue(){
         cout<<"Queue is EMPTY can not de";
         return NULL;
     }
+    int ff = front;
     front = (front+1)%maxSize;
-    return elem[front];
+    return elem[ff];
 }
 
 template<class ElemType>
@@ -118,9 +119,11 @@ bool SqQueue<ElemType>::DoubleSpace(){
 
 template<class ElemType>
 void SqQueue<ElemType>::Trav(){
-    for (int i = front;; i++) {
+    int i;
+    for (i = front;; i++) {
         i = i%maxSize;
-        if (i == rear)break;
+        if (i == rear-1)break;
         cout<<elem[i]<<' ';
     }
+    cout<<elem[rear-1];
 }
