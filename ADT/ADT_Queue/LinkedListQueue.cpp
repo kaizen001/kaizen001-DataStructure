@@ -60,15 +60,20 @@ public:
 
 template<class ElemType>
 LinkedListQueue<ElemType>::LinkedListQueue(LinkedListQueue<ElemType> &List){
+    if (lenght == 0) {
+        head = nullptr;
+        tail = nullptr;
+    }
     LinkNode<ElemType> *p = List.head;
     QueueClear();
     LinkNode<ElemType> *pthis = head;
     
-    while(p!=nullptr){
-        LinkNode<ElemType> *node = new LinkedListQueue<ElemType>(p->getData());
+    while(pthis!=nullptr){
+        LinkNode<ElemType> *node = new LinkNode<ElemType>(p->getData());
         lenght++;
         p = p->next;
         pthis->next = node;
+        pthis = pthis->next;
     }
 }
 
@@ -86,7 +91,7 @@ void LinkedListQueue<ElemType>::QueueDestroy(){
 
 template<class ElemType>
 void LinkedListQueue<ElemType>::QueueClear(){
-    this->ListDestroy();
+    this->QueueDestroy();
 }
 
 template<class ElemType>
