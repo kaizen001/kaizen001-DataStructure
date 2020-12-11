@@ -3,7 +3,7 @@ using namespace std;
 const int MAXLISTSIZE = 100;
 
 template<class ElemType>
-class SqQueue{
+class CircularQueue{
 private:
     ElemType *elem;   // 存储空间基址
     int front;   // 队头指针
@@ -11,9 +11,9 @@ private:
     int maxSize;        // 允许的最大存储容量(以sizeof(ElemType)为单位
 public:
     //初始化顺序队列
-    SqQueue(int ms = 20);
+    CircularQueue(int ms = 20);
     //删除顺序队列
-    ~SqQueue(){QueueDestroy();}
+    ~CircularQueue(){QueueDestroy();}
     //将顺序队列置为空
     bool QueueClear();
     //设置顺序栈的长度
@@ -39,7 +39,7 @@ public:
     };
 
 template<class ElemType>
-SqQueue<ElemType>::SqQueue(int ms){
+CircularQueue<ElemType>::CircularQueue(int ms){
     if (ms>MAXLISTSIZE+1) {
         cout<<"ms too large";
         return;
@@ -51,7 +51,7 @@ SqQueue<ElemType>::SqQueue(int ms){
 }
 
 template<class ElemType>
-bool SqQueue<ElemType>::QueueDestroy(){
+bool CircularQueue<ElemType>::QueueDestroy(){
     delete[] elem;
     front = rear = 0;
     elem = nullptr;
@@ -60,14 +60,14 @@ bool SqQueue<ElemType>::QueueDestroy(){
 }
 
 template<class ElemType>
-bool SqQueue<ElemType>::QueueClear(){
+bool CircularQueue<ElemType>::QueueClear(){
     front = 0;
     rear = front;
     return 1;
 }
 
 template<class ElemType>
-bool SqQueue<ElemType>::enQueue(ElemType e){
+bool CircularQueue<ElemType>::enQueue(ElemType e){
     if (QueueFull()&&(!DoubleSpace())) return false;
     elem[rear] = e;
     rear = (rear+1)%maxSize;
@@ -76,7 +76,7 @@ bool SqQueue<ElemType>::enQueue(ElemType e){
 }
 
 template<class ElemType>
-bool SqQueue<ElemType>::deQueue(ElemType &e){
+bool CircularQueue<ElemType>::deQueue(ElemType &e){
     if (QueueisEmpty()) {
         cout<<"Queue is EMPTY can not de";
         return false;
@@ -86,7 +86,7 @@ bool SqQueue<ElemType>::deQueue(ElemType &e){
     return true;
 }
 template<class ElemType>
-ElemType SqQueue<ElemType>::deQueue(){
+ElemType CircularQueue<ElemType>::deQueue(){
     if (QueueisEmpty()) {
         cout<<"Queue is EMPTY can not de";
         return NULL;
@@ -97,7 +97,7 @@ ElemType SqQueue<ElemType>::deQueue(){
 }
 
 template<class ElemType>
-bool SqQueue<ElemType>::DoubleSpace(){
+bool CircularQueue<ElemType>::DoubleSpace(){
     if ((maxSize-1)*2+1>MAXLISTSIZE+1) {
         cout<<"size will BIGGER than MAXLIMIT,DoubleSpace failed";
         return 0;
@@ -118,12 +118,11 @@ bool SqQueue<ElemType>::DoubleSpace(){
 }
 
 template<class ElemType>
-void SqQueue<ElemType>::Trav(){
+void CircularQueue<ElemType>::Trav(){
     int i;
     for (i = front;; i++) {
         i = i%maxSize;
-        if (i == rear-1)break;
-        cout<<elem[i]<<' ';
+        if (i == rear)break;
+        cout<<elem[i];
     }
-    cout<<elem[rear-1];
 }
