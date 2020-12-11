@@ -26,10 +26,12 @@ class LinkedListQueue
 private:
     LinkNode<ElemType> *head;   // 头结点
     LinkNode<ElemType> *tail;   // 尾结点
+    int lenght = 0;
 public:
-    LinkedListQueue(){head = new LinkNode<ElemType>;tail = head;}//无参数的构造函数
+    LinkedListQueue(){head = nullptr;tail = head;}//无参数的构造函数
     LinkedListQueue(const ElemType &item){
         head = new LinkNode<ElemType>(item);
+        lenght++;
         tail = head;} //带参数的构造函数
     LinkedListQueue(LinkedListQueue<ElemType> &List);//拷贝构造函数
     ~LinkedListQueue(){QueueDestroy();}//析构函数
@@ -64,6 +66,7 @@ LinkedListQueue<ElemType>::LinkedListQueue(LinkedListQueue<ElemType> &List){
     
     while(p!=nullptr){
         LinkNode<ElemType> *node = new LinkedListQueue<ElemType>(p->getData());
+        lenght++;
         p = p->next;
         pthis->next = node;
     }
@@ -78,6 +81,7 @@ void LinkedListQueue<ElemType>::QueueDestroy(){
     }
     head = nullptr;
     tail = nullptr;
+    lenght=0;
 }
 
 template<class ElemType>
@@ -87,8 +91,7 @@ void LinkedListQueue<ElemType>::QueueClear(){
 
 template<class ElemType>
 int LinkedListQueue<ElemType>::QueueLength() const{
-    if (head == nullptr) return 0;
-    return tail - head+1;
+    return lenght;
 }
 
 template<class ElemType>
@@ -125,6 +128,7 @@ bool LinkedListQueue<ElemType>::deQueue(ElemType &e){
     head = head->next;
     e = p->getData();
     delete p;
+    lenght--;
     if (head == nullptr) tail = head;
     return true;
 }
@@ -139,6 +143,7 @@ ElemType LinkedListQueue<ElemType>::deQueue(){
     head = head->next;
     ElemType e = p->getData();
     delete p;
+    lenght--;
     if (head == nullptr) tail = head;
     return e;
 }
@@ -147,10 +152,12 @@ template<class ElemType>
 bool LinkedListQueue<ElemType>::enQueue(ElemType e){
     if (QueueEmpty()) {
         head = new LinkNode<ElemType>(e);
+        lenght++;
         tail = head;
         return 1;
     }
     tail->next = new LinkNode<ElemType>(e);
+    lenght++;
     tail = tail->next;
     return 1;
 }
