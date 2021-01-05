@@ -1,5 +1,25 @@
+
+
 using namespace std;
 
+template<class ElemType>
+void SimpleInsertSort( vector<ElemType> &A ){
+    for (int i = 1; i<A.size(); i++) {
+        for (int j = i; j>0; j--) {
+            if(A[j]<A[j-1]){
+                ElemType buff = A[j];
+                A[j] = A[j-1];
+                A[j-1] = buff;
+            }
+        }
+        for(auto elm:A){
+            cout<<elm<<' ';
+        }
+        cout<<endl;
+    }
+}
+
+//折半查找
 template<class ElemType>
 void SimpleInsertSort( vector<ElemType> &A ){
     for (int i = 1; i<A.size(); i++) {
